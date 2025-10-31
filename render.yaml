@@ -4,9 +4,9 @@ services:
     name: callwaitingai-backend
     env: node
     plan: starter
-    buildCommand: cd backend && npm ci
-    startCommand: cd backend && npm start
     rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -84,16 +84,16 @@ services:
   # Rasa Action Server
   - type: web
     name: rasa-actions
-    runtime: python
+    env: python
     plan: starter
+    rootDir: rasa-agent
     buildCommand: |
-      cd rasa-agent
       python -m venv venv
       source venv/bin/activate
       pip install --upgrade pip
+      pip install -r requirements.txt
       pip install -r actions/requirements.txt
     startCommand: |
-      cd rasa-agent
       source venv/bin/activate
       rasa run actions --port $PORT
     envVars:
