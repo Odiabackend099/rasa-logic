@@ -2,10 +2,11 @@ services:
   # Backend API Service
   - type: web
     name: callwaitingai-backend
-    runtime: node
+    env: node
     plan: starter
     buildCommand: cd backend && npm ci
     startCommand: cd backend && npm start
+    rootDir: backend
     envVars:
       - key: NODE_ENV
         value: production
@@ -54,17 +55,17 @@ services:
   # Rasa Server
   - type: web
     name: rasa-server
-    runtime: python
+    env: python
     plan: starter
+    rootDir: rasa-agent
     buildCommand: |
-      cd rasa-agent
       python -m venv venv
       source venv/bin/activate
       pip install --upgrade pip
+      pip install -r requirements.txt
       pip install -r actions/requirements.txt
       rasa train
     startCommand: |
-      cd rasa-agent
       source venv/bin/activate
       rasa run --enable-api --cors "*" --port $PORT
     envVars:
