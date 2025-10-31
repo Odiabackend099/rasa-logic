@@ -74,20 +74,18 @@ services:
     envVars:
       - key: PORT
         value: 10000
-      - key: PYTHONHASHSEED
-        value: 0
       - key: TF_CPP_MIN_LOG_LEVEL
         value: 3
-      - key: CUDA_VISIBLE_DEVICES
-        value: ""
+      - key: RASA_MAX_TRAINING_PROCESSES
+        value: 1
       - key: OMP_NUM_THREADS
         value: 1
       - key: OPENBLAS_NUM_THREADS
         value: 1
-      - key: SQLALCHEMY_WARN_20
-        value: 0
-      - key: SQLALCHEMY_SILENCE_UBER_WARNING
+      - key: MKL_NUM_THREADS
         value: 1
+      - key: RASA_TELEMETRY_ENABLED
+        value: false
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_KEY
@@ -99,10 +97,6 @@ services:
       - key: MINIMAX_GROUP_ID
         sync: false
       - key: MINIMAX_MODEL
-        sync: false
-      - key: TELEGRAM_BOT_TOKEN
-        sync: false
-      - key: TELEGRAM_CHAT_ID
         sync: false
       - key: ACTION_SERVER_URL
         fromService:
@@ -120,15 +114,11 @@ services:
     envVars:
       - key: PORT
         value: 10000
-      - key: PYTHONHASHSEED
-        value: 0
       - key: OMP_NUM_THREADS
         value: 1
       - key: OPENBLAS_NUM_THREADS
         value: 1
-      - key: SQLALCHEMY_WARN_20
-        value: 0
-      - key: SQLALCHEMY_SILENCE_UBER_WARNING
+      - key: MKL_NUM_THREADS
         value: 1
       - key: SUPABASE_URL
         sync: false

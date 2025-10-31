@@ -40,6 +40,21 @@ nlu:
     - what are your rates?
     - how much per month?
 
+- intent: ask_about_love
+  examples: |
+    - tell me about love
+    - what is the true meaning of love?
+    - tell me softly what is the true meaning of love
+    - what does love mean to you?
+    - explain love to me
+    - what is real love?
+    - tell me about true love
+    - what is the meaning of love?
+    - speak to me about love
+    - what does it mean to love someone?
+    - tell me something beautiful about love
+    - what is love really?
+
 - intent: book_demo
   examples: |
     - I want to start

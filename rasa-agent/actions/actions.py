@@ -97,16 +97,35 @@ class ActionSendToMiniMax(Action):
             logger.warning("No latest message found for MiniMax TTS")
             return []
         
-        text_to_synthesize = latest_message.get('text', '').strip()
-        if not text_to_synthesize:
+        original_text = latest_message.get('text', '').strip()
+        if not original_text:
             logger.warning("Empty text for MiniMax TTS synthesis")
             return []
+        
+        # Check if this is a love-related question and provide a beautiful response
+        if any(word in original_text.lower() for word in ['love', 'meaning of love', 'true love']):
+            text_to_synthesize = """The true meaning of love whispers to us in the quiet moments between heartbeats. 
+
+Love is not just an emotion, but a choice we make each day. It's the gentle touch that says "you matter" without words. It's seeing someone's flaws and choosing to stay, not despite them, but because they make that person beautifully human.
+
+True love is patient. It doesn't rush or demand, but waits with open arms. It's the safety of knowing someone will catch you when you fall, and the courage to let yourself be vulnerable.
+
+Love is found in small gestures - a warm cup of coffee on a cold morning, a listening ear after a difficult day, or simply sitting together in comfortable silence. It's choosing kindness when anger would be easier.
+
+The deepest love starts with loving yourself - accepting your own imperfections and treating yourself with the same compassion you'd show a dear friend. Only then can you truly give love to others.
+
+Love is not possession, but freedom. It's wanting the best for someone, even if that means letting them go. It's celebrating their dreams and supporting their journey, wherever it may lead.
+
+In the end, love is the thread that connects all hearts, the light that guides us home, and the gentle reminder that we are never truly alone in this beautiful, complex world."""
+        else:
+            # For other messages, use the original text
+            text_to_synthesize = original_text
         
         # Get MiniMax configuration from environment
         minimax_url = os.getenv("MINIMAX_API_URL")
         api_key = os.getenv("MINIMAX_API_KEY")
         group_id = os.getenv("MINIMAX_GROUP_ID")
-        model = os.getenv("MINIMAX_MODEL", "speech-01")
+        model = os.getenv("MINIMAX_MODEL", "speech-02-hd")
         
         # Validate required configuration
         if not all([minimax_url, api_key, group_id]):
@@ -121,16 +140,24 @@ class ActionSendToMiniMax(Action):
             "User-Agent": "CallWaitingAI-Rasa-Agent/1.0"
         }
         
+        # Use soft female voice for love-related content
+        voice_settings = {
+            "voice_id": "female-soft",
+            "speed": 0.9,  # Slightly slower for gentle delivery
+            "vol": 0.8,    # Moderate volume
+            "pitch": 0     # Natural pitch
+        } if 'love' in original_text.lower() else {
+            "voice_id": "female_calm",
+            "speed": 1.0,
+            "vol": 1.0,
+            "pitch": 0
+        }
+        
         request_body = {
             "group_id": group_id,
             "model": model,
             "text": text_to_synthesize,
-            "voice_setting": {
-                "voice_id": "female_calm",
-                "speed": 1.0,
-                "vol": 1.0,
-                "pitch": 0
-            }
+            "voice_setting": voice_settings
         }
         
         try:

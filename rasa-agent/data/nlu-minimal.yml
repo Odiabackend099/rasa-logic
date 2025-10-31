@@ -1,0 +1,31 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - hey
+    - good morning
+    - hi there
+
+- intent: inquire_services
+  examples: |
+    - what services do you provide?
+    - tell me about your business
+    - what can you do?
+    - what do you offer?
+
+- intent: goodbye
+  examples: |
+    - goodbye
+    - bye
+    - see you later
+    - talk to you later
+
+- intent: ask_about_love
+  examples: |
+    - tell me about love
+    - what is love?
+    - tell me softly what is the true meaning of love
+    - what does love mean?

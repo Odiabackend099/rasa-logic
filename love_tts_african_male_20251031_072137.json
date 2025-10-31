@@ -1,0 +1,16 @@
+{
+  "text": "The true meaning of love whispers to us in the quiet moments between heartbeats. \n\nLove is not just an emotion, but a choice we make each day. It's the gentle touch that says \"you matter\" without words. It's seeing someone's flaws and choosing to stay, not despite them, but because they make that person beautifully human.\n\nTrue love is patient. It doesn't rush or demand, but waits with open arms. It's the safety of knowing someone will catch you when you fall, and the courage to let yourself be vulnerable.\n\nLove is found in small gestures - a warm cup of coffee on a cold morning, a listening ear after a difficult day, or simply sitting together in comfortable silence. It's choosing kindness when anger would be easier.\n\nThe deepest love starts with loving yourself - accepting your own imperfections and treating yourself with the same compassion you'd show a dear friend. Only then can you truly give love to others.\n\nLove is not possession, but freedom. It's wanting the best for someone, even if that means letting them go. It's celebrating their dreams and supporting their journey, wherever it may lead.\n\nIn the end, love is the thread that connects all hearts, the light that guides us home, and the gentle reminder that we are never truly alone in this beautiful, complex world.",
+  "response": {
+    "base_resp": {
+      "status_code": 2013,
+      "status_msg": "invalid params, empty field"
+    }
+  },
+  "generated_at": "20251031_072137",
+  "voice_id": "moss_audio_4e6eb029-ab89-11f0-a74c-2a7a0b4baedc",
+  "settings": {
+    "speed": 0.9,
+    "volume": 0.8,
+    "pitch": 0
+  }
+}

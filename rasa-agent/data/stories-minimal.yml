@@ -1,0 +1,23 @@
+version: "3.1"
+
+stories:
+
+- story: simple greeting
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: ask services
+  steps:
+  - intent: inquire_services
+  - action: utter_services
+
+- story: love question
+  steps:
+  - intent: ask_about_love
+  - action: action_send_to_minimax
+
+- story: goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye

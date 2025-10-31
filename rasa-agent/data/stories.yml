@@ -14,6 +14,11 @@ stories:
   - intent: pricing
   - action: utter_pricing
 
+- story: ask about love with TTS
+  steps:
+  - intent: ask_about_love
+  - action: action_send_to_minimax
+
 - story: book demo and capture info
   steps:
   - intent: book_demo

@@ -10,6 +10,7 @@ intents:
   - provide_contact
   - goodbye
   - unclear
+  - ask_about_love
 
 entities:
   - name
