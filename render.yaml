@@ -68,15 +68,33 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      cd rasa-agent && python3.10 -m venv venv && . venv/bin/activate && pip install --upgrade pip setuptools wheel && pip install -r requirements.txt && pip install -r actions/requirements.txt && rasa train --quiet
+      chmod +x rasa-agent/render-build.sh && RASA_SERVICE_TYPE=server ./rasa-agent/render-build.sh
     startCommand: |
-      cd rasa-agent && . venv/bin/activate && rasa run --enable-api --cors "*" --port $PORT
+      chmod +x rasa-agent/render-start-server.sh && ./rasa-agent/render-start-server.sh
     envVars:
       - key: PORT
         value: 10000
+      - key: PYTHONHASHSEED
+        value: 0
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: 2
+      - key: CUDA_VISIBLE_DEVICES
+        value: ""
+      - key: OMP_NUM_THREADS
+        value: 1
+      - key: OPENBLAS_NUM_THREADS
+        value: 1
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_KEY
+        sync: false
+      - key: MINIMAX_API_URL
+        sync: false
+      - key: MINIMAX_API_KEY
+        sync: false
+      - key: MINIMAX_GROUP_ID
+        sync: false
+      - key: MINIMAX_MODEL
         sync: false
       - key: TELEGRAM_BOT_TOKEN
         sync: false
@@ -92,12 +110,18 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      cd rasa-agent && python3.10 -m venv venv && . venv/bin/activate && pip install --upgrade pip setuptools wheel && pip install -r requirements.txt && pip install -r actions/requirements.txt
+      chmod +x rasa-agent/render-build.sh && RASA_SERVICE_TYPE=actions ./rasa-agent/render-build.sh
     startCommand: |
-      cd rasa-agent && . venv/bin/activate && rasa run actions --port $PORT
+      chmod +x rasa-agent/render-start-actions.sh && ./rasa-agent/render-start-actions.sh
     envVars:
       - key: PORT
         value: 10000
+      - key: PYTHONHASHSEED
+        value: 0
+      - key: OMP_NUM_THREADS
+        value: 1
+      - key: OPENBLAS_NUM_THREADS
+        value: 1
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_KEY
