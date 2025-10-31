@@ -68,17 +68,9 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      cd rasa-agent
-      python -m venv venv
-      source venv/bin/activate
-      pip install --upgrade pip
-      pip install -r requirements.txt
-      pip install -r actions/requirements.txt
-      rasa train
+      cd rasa-agent && python3.10 -m venv venv && . venv/bin/activate && pip install --upgrade pip setuptools wheel && pip install -r requirements.txt && pip install -r actions/requirements.txt && rasa train --quiet
     startCommand: |
-      cd rasa-agent
-      source venv/bin/activate
-      rasa run --enable-api --cors "*" --port $PORT
+      cd rasa-agent && . venv/bin/activate && rasa run --enable-api --cors "*" --port $PORT
     envVars:
       - key: PORT
         value: 10000
@@ -100,16 +92,9 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      cd rasa-agent
-      python -m venv venv
-      source venv/bin/activate
-      pip install --upgrade pip
-      pip install -r requirements.txt
-      pip install -r actions/requirements.txt
+      cd rasa-agent && python3.10 -m venv venv && . venv/bin/activate && pip install --upgrade pip setuptools wheel && pip install -r requirements.txt && pip install -r actions/requirements.txt
     startCommand: |
-      cd rasa-agent
-      source venv/bin/activate
-      rasa run actions --port $PORT
+      cd rasa-agent && . venv/bin/activate && rasa run actions --port $PORT
     envVars:
       - key: PORT
         value: 10000
