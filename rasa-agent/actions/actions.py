@@ -1,6 +1,7 @@
 """
 Custom actions for CallWaitingAI Rasa agent.
 Handles lead capture, booking, logging, and Supabase integration.
+Marcy personality: warm, professional, efficient, max 25 words per response.
 """
 
 import os
@@ -11,6 +12,22 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from supabase import create_client, Client
+
+# Import Marcy response formatter
+try:
+    from response_formatter import format_marcy_response, get_marcy_closing
+except ImportError:
+    # Fallback if import fails
+    def format_marcy_response(text: str, max_words: int = 25) -> str:
+        words = text.split()
+        if len(words) > max_words:
+            text = ' '.join(words[:max_words])
+            if text[-1] not in '.!?':
+                text += '.'
+        return text.strip()
+    
+    def get_marcy_closing() -> str:
+        return "Thank you for calling CallWaitingAI. Have a wonderful day."
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -73,19 +90,49 @@ class ActionCaptureLead(Action):
             try:
                 result = supabase.table("leads").insert(lead_data).execute()
                 logger.info(f"Lead captured: {result.data}")
-                dispatcher.utter_message(
-                    text="Thank you! I've saved your information. Someone from our team will contact you soon."
+                
+                # Send Telegram alert if configured
+                telegram_token = os.getenv("TELEGRAM_BOT_TOKEN", "")
+                telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID", "6526780056")
+                
+                if telegram_token:
+                    try:
+                        import requests
+                        alert_message = (
+                            f"🆕 New Lead Captured!\n\n"
+                            f"Name: {name or 'Not provided'}\n"
+                            f"Phone: {phone_number or 'Not provided'}\n"
+                            f"Email: {email or 'Not provided'}\n"
+                            f"Service: {service_interest or 'Not specified'}\n"
+                            f"Channel: {channel}\n"
+                            f"Session: {session_id}"
+                        )
+                        requests.post(
+                            f"https://api.telegram.org/bot{telegram_token}/sendMessage",
+                            json={
+                                "chat_id": telegram_chat_id,
+                                "text": alert_message,
+                                "parse_mode": "HTML"
+                            },
+                            timeout=5
+                        )
+                        logger.info(f"Telegram alert sent to chat {telegram_chat_id}")
+                    except Exception as telegram_error:
+                        logger.warning(f"Telegram alert failed: {telegram_error}")
+                
+                # Format response with Marcy personality (max 25 words)
+                response = format_marcy_response(
+                    "Thank you! I've saved your information. Someone from our team will contact you soon."
                 )
+                dispatcher.utter_message(text=response)
             except Exception as e:
                 logger.error(f"Error capturing lead: {e}")
-                dispatcher.utter_message(
-                    text="I've noted your information. We'll be in touch shortly."
-                )
+                response = format_marcy_response("I've noted your information. We'll be in touch shortly.")
+                dispatcher.utter_message(text=response)
         else:
             logger.warning("Supabase not configured. Lead not saved.")
-            dispatcher.utter_message(
-                text="Thank you for your interest! We'll get back to you soon."
-            )
+            response = format_marcy_response("Thank you for your interest! We'll get back to you soon.")
+            dispatcher.utter_message(text=response)
         
         return []
 
@@ -290,15 +337,17 @@ class ActionGetServiceInfo(Action):
         if service_type:
             info = service_info.get(service_type.lower(), "")
             if info:
-                dispatcher.utter_message(text=info)
+                # Format with Marcy personality (max 25 words)
+                formatted_info = format_marcy_response(info)
+                dispatcher.utter_message(text=formatted_info)
             else:
-                dispatcher.utter_message(
-                    text=f"For detailed information about {service_type}, I can connect you with our team."
+                response = format_marcy_response(
+                    f"For detailed information about {service_type}, I can connect you with our team."
                 )
+                dispatcher.utter_message(text=response)
         else:
-            dispatcher.utter_message(
-                text="Which specific service would you like to learn more about?"
-            )
+            response = format_marcy_response("Which specific service would you like to learn more about?")
+            dispatcher.utter_message(text=response)
         
         return []
 
