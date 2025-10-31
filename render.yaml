@@ -1,5 +1,4 @@
 services:
-  # Backend API Service
   - type: web
     name: callwaitingai-backend
     env: node
@@ -46,8 +45,6 @@ services:
         sync: false
       - key: LOG_LEVEL
         value: info
-
-  # Rasa Server
   - type: web
     name: rasa-server
     env: python
@@ -75,8 +72,6 @@ services:
           name: rasa-actions
           type: web
           property: host
-
-  # Rasa Action Server
   - type: web
     name: rasa-actions
     env: python
