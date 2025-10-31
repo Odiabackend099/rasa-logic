@@ -15,6 +15,9 @@ fi
 python3.10 -m venv venv
 source venv/bin/activate
 
+# Disable Rasa telemetry to reduce logging noise
+rasa telemetry disable || true
+
 # Upgrade pip with no cache to save memory
 pip install --upgrade --no-cache-dir pip setuptools wheel
 

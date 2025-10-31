@@ -12,8 +12,6 @@ pipeline:
   - name: DIETClassifier
     epochs: 5  # Reduced from 100
     batch_size: 16  # Reduced from 64
-    hidden_layers_sizes:
-      text: [32]  # Reduced from [256, 128]
     number_of_transformer_layers: 1  # Reduced from 2
     transformer_size: 32  # Reduced from 256
     use_masked_language_model: false  # Disabled for memory
@@ -21,8 +19,6 @@ pipeline:
   - name: ResponseSelector
     epochs: 5  # Reduced from 100
     batch_size: 16  # Reduced from 64
-    hidden_layers_sizes:
-      text: [32]  # Reduced from [256, 128]
     number_of_transformer_layers: 1  # Reduced from 2
     transformer_size: 32  # Reduced from 256
   - name: FallbackClassifier
@@ -43,9 +39,6 @@ policies:
     max_history: 2  # Reduced from 5
     epochs: 5  # Reduced from 100
     batch_size: 16  # Reduced from 32
-    hidden_layers_sizes:
-      text: [32]  # Reduced from [256, 128]
-      label: [16]  # Reduced from [128, 64]
     number_of_transformer_layers: 1  # Reduced from 2
     transformer_size: 32  # Reduced from 256
     use_masked_language_model: false  # Disabled for memory
