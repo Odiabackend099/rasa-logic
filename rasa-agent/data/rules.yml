@@ -11,21 +11,8 @@ rules:
       - intent: goodbye
       - action: utter_goodbye
 
-  - rule: Thank user
-    steps:
-      - intent: thanks
-      - action: utter_thanks
-
-  # Note: Affirm and deny rules removed to avoid conflicts with stories
-  # They will be handled by stories or custom actions as needed
-
   - rule: Handle unclear audio
     steps:
-      - intent: unclear_audio
-      - action: utter_unclear_audio
-
-  - rule: Repeat request
-    steps:
-      - intent: repeat_request
-      - action: utter_repeat_request
+      - intent: unclear
+      - action: utter_clarify
 

@@ -2,185 +2,68 @@ version: "3.1"
 
 intents:
   - greet
-  - goodbye
-  - affirm
-  - deny
-  - service_info
-  - service_details
-  - service_hours
+  - inquire_services
   - pricing
-  - pricing_details
-  - payment_options
-  - booking
-  - booking_confirmation
-  - booking_modification
-  - booking_cancellation
-  - provide_booking_date
-  - provide_booking_time
-  - unclear_audio
-  - repeat_request
-  - slow_down
-  - human_handoff_request
-  - agent_transfer
-  - faq
-  - contact_info
-  - thanks
-  - complaint
-  - out_of_scope
+  - book_demo
+  - provide_name
+  - provide_business
+  - provide_contact
+  - goodbye
+  - unclear
 
 entities:
-  - service_type
-  - price
-  - booking_date
-  - booking_time
-  - phone_number
   - name
-  - email
-  - location
+  - business
+  - phone
 
 slots:
-  service_type:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: service_type
-  
-  price:
-    type: float
-    mappings:
-      - type: from_entity
-        entity: price
-  
-  booking_date:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: booking_date
-  
-  booking_time:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: booking_time
-  
-  phone_number:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: phone_number
-  
   name:
     type: text
     mappings:
-      - type: from_entity
-        entity: name
-  
-  email:
+    - type: from_entity
+      entity: name
+  business:
     type: text
     mappings:
-      - type: from_entity
-        entity: email
-  
-  session_id:
+    - type: from_entity
+      entity: business
+  phone:
     type: text
     mappings:
-      - type: custom
-  
-  channel:
-    type: text
-    mappings:
-      - type: custom
-  
-  language:
-    type: text
-    mappings:
-      - type: custom
+    - type: from_entity
+      entity: phone
 
 responses:
   utter_greet:
-    - text: "Hello! Welcome to CallWaitingAI. How can I help you today?"
-    - text: "Hi there! I'm Marcy, your CallWaitingAI receptionist. How may I assist you?"
-    - text: "Greetings! I'm here to help. What can I do for you?"
-  
-  utter_goodbye:
-    - text: "Thank you for calling CallWaitingAI. Have a wonderful day."
-    - text: "Thank you for calling CallWaitingAI. Have a wonderful day."
-    - text: "Thank you for calling CallWaitingAI. Have a wonderful day."
-  
-  utter_service_info:
-    - text: "We offer AI call answering, lead capture, booking systems, and CRM integration. Which service interests you?"
-    - text: "CallWaitingAI provides 24/7 call handling, appointment booking, lead generation, and business CRM tools. What would you like to know more about?"
-  
-  utter_service_details:
-    - text: "I can provide details on any service. Which one interests you?"
-  
-  utter_service_hours:
-    - text: "CallWaitingAI is available 24/7. I'm always here to help!"
-  
+    - text: "Hello! You've reached CallWaitingAI. This is Marcy. How may I assist you today?"
+
+  utter_services:
+    - text: "We provide 24/7 AI call answering, lead capture, and appointment booking for businesses."
+
   utter_pricing:
-    - text: "Our pricing is tiered by call volume. Would you like me to have someone contact you with specific pricing details?"
-    - text: "Pricing varies based on your needs. Should I connect you with our pricing team?"
-  
-  utter_pricing_details:
-    - text: "For detailed pricing, I'll connect you with our team. Should I arrange that?"
-  
-  utter_payment_options:
-    - text: "We accept credit cards, bank transfers, and other secure payment methods. Need more details?"
-  
-  utter_booking:
-    - text: "I'd be happy to help you book. What date and time work for you?"
-    - text: "Let's schedule your appointment. When would you like to come in?"
-  
-  utter_booking_confirmation:
-    - text: "Your booking is confirmed! You'll receive a confirmation email shortly."
-  
-  utter_booking_modification:
-    - text: "I can help you modify your booking. What changes would you like to make?"
-  
-  utter_booking_cancellation:
-    - text: "I can help you cancel your booking. Would you like me to proceed?"
-  
-  utter_unclear_audio:
-    - text: "I'm sorry, I didn't catch that. Could you please repeat?"
-    - text: "I didn't quite understand. Can you say that again?"
-  
-  utter_repeat_request:
-    - text: "Of course. Let me repeat that for you."
-  
-  utter_slow_down:
-    - text: "No problem, I'll speak more slowly."
-  
-  utter_human_handoff_request:
-    - text: "I'll connect you with one of our human agents right away. Please hold."
-  
-  utter_agent_transfer:
-    - text: "Transferring you to a human agent now."
-  
-  utter_faq:
-    - text: "I'm here to help answer your questions. What would you like to know?"
-  
-  utter_contact_info:
-    - text: "You can reach us through this number, email, or our website. Is there something specific you need help with?"
-  
-  utter_thanks:
-    - text: "You're very welcome! Anything else I can help with?"
-    - text: "Happy to help! Anything else?"
-  
-  utter_complaint:
-    - text: "I'm sorry to hear about your experience. Let me connect you with our support team."
-  
-  utter_out_of_scope:
-    - text: "I'm not sure I understand. Could you rephrase? I'm here to help with services, pricing, or bookings."
-    - text: "That's outside my area. I can help with our services, pricing, or booking. What would you like to know?"
+    - text: "Our pricing depends on your call volume. The first 100 calls are free, then we offer tiered plans starting at ₦10,000 per month."
+
+  utter_start_booking:
+    - text: "Perfect! May I have your full name please?"
+
+  utter_ask_business:
+    - text: "Thanks {name}. What's your business name?"
+
+  utter_ask_contact:
+    - text: "And what's the best number to reach you on?"
+
+  utter_booking_confirmed:
+    - text: "Thank you {name}. I've logged your details. One of our specialists will reach out shortly."
+
+  utter_clarify:
+    - text: "I'm sorry, I didn't catch that. Could you repeat please?"
+
+  utter_goodbye:
+    - text: "Thank you for calling CallWaitingAI. Have a wonderful day!"
 
 actions:
-  - action_capture_lead
-  - action_store_booking
-  - action_log_conversation
-  - action_human_handoff
-  - action_get_service_info
-  - action_check_availability
-  - action_send_confirmation
+  - action_log_to_backend
+  - action_send_to_minimax
 
 session_config:
   session_expiration_time: 60

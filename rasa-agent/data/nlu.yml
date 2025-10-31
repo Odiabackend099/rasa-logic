@@ -1,249 +1,113 @@
 version: "3.1"
 
 nlu:
-  - intent: greet
-    examples: |
-      - Hi
-      - Hello
-      - Hey
-      - Good morning
-      - Good afternoon
-      - Good evening
-      - Hi there
-      - Hello there
-      - Greetings
-      - Howdy
-      - [Nigerian Pidgin] How you dey?
-      - [Nigerian Pidgin] Abeg wetin dey happen?
-      - [Nigerian Pidgin] Hello o
+- intent: greet
+  examples: |
+    - hello
+    - hi there
+    - good morning
+    - hey
+    - hello marcy
+    - hi, who am I speaking with?
+    - good afternoon
+    - good evening
+    - greetings
+    - howdy
 
-  - intent: goodbye
-    examples: |
-      - Bye
-      - Goodbye
-      - See you later
-      - See you
-      - Talk to you later
-      - Thanks bye
-      - Bye bye
-      - [Nigerian Pidgin] Later o
-      - [Nigerian Pidgin] Make I go now
+- intent: inquire_services
+  examples: |
+    - what services do you provide?
+    - tell me about your business
+    - what can CallWaitingAI do for me?
+    - what is your AI receptionist about?
+    - how does it work?
+    - what services are available?
+    - tell me about your services
+    - what do you offer?
+    - what can you do for my business?
+    - explain your AI call answering
 
-  - intent: affirm
-    examples: |
-      - Yes
-      - Yeah
-      - Yep
-      - Sure
-      - Okay
-      - Ok
-      - Alright
-      - Of course
-      - Definitely
-      - Absolutely
-      - [Nigerian Pidgin] Yes o
-      - [Nigerian Pidgin] Na so
+- intent: pricing
+  examples: |
+    - how much does it cost?
+    - tell me about pricing
+    - what are your plans?
+    - do you have a free trial?
+    - how does billing work?
+    - what's the price?
+    - pricing information
+    - cost details
+    - what are your rates?
+    - how much per month?
 
-  - intent: deny
-    examples: |
-      - No
-      - Nope
-      - Not really
-      - Don't think so
-      - Nah
-      - [Nigerian Pidgin] No o
-      - [Nigerian Pidgin] No be so
+- intent: book_demo
+  examples: |
+    - I want to start
+    - sign me up
+    - can I schedule a demo?
+    - I'd like to get started
+    - how do I begin?
+    - let's get started
+    - I'm interested
+    - book a demo
+    - schedule a call
+    - I want to try this
 
-  - intent: service_info
-    examples: |
-      - What services do you offer?
-      - Tell me about your services
-      - What services are available?
-      - I want to know about services
-      - Services
-      - What can you do?
-      - What do you provide?
-      - [Nigerian Pidgin] Wetin una dey do?
-      - [Nigerian Pidgin] Abeg tell me about una services
+- intent: provide_name
+  examples: |
+    - my name is [John Doe](name)
+    - I'm [Mary Johnson](name)
+    - it's [David](name)
+    - call me [Sarah](name)
+    - this is [Michael Smith](name)
+    - [Jennifer](name) speaking
+    - [Robert](name) here
+    - my name's [Lisa](name)
 
-  - intent: service_details
-    examples: |
-      - Tell me more about [service management](service_type)
-      - Details about [call handling](service_type)
-      - What is [AI assistant](service_type)?
-      - Explain [booking system](service_type)
-      - More info on [customer support](service_type)
+- intent: provide_business
+  examples: |
+    - my business is [Royal Cleaners](business)
+    - it's [BlueLine Autos](business)
+    - I run [Prime Clinic](business)
+    - we're [Tech Solutions](business)
+    - [Green Gardens](business) landscaping
+    - [City Dental](business) practice
+    - [Fast Delivery](business) service
+    - [Elite Fitness](business) gym
 
-  - intent: service_hours
-    examples: |
-      - What are your hours?
-      - When are you open?
-      - What time do you close?
-      - Business hours
-      - Operating hours
-      - [Nigerian Pidgin] Wetin be una working hours?
+- intent: provide_contact
+  examples: |
+    - you can reach me on [08031234567](phone)
+    - my number is [09056789012](phone)
+    - contact me on [07099998888](phone)
+    - call me at [08123456789](phone)
+    - my phone is [09087654321](phone)
+    - reach me at [07012345678](phone)
+    - [08098765432](phone) is my number
+    - phone number is [09034567890](phone)
 
-  - intent: pricing
-    examples: |
-      - How much does it cost?
-      - What's the price?
-      - Pricing
-      - How much?
-      - Cost
-      - Rates
-      - What are your rates?
-      - Price list
-      - [Nigerian Pidgin] How much e cost?
-      - [Nigerian Pidgin] Wetin be the price?
+- intent: goodbye
+  examples: |
+    - thank you
+    - bye
+    - goodbye
+    - talk to you later
+    - thanks bye
+    - see you later
+    - have a good day
+    - appreciate it
+    - thanks for your help
 
-  - intent: pricing_details
-    examples: |
-      - Detailed pricing
-      - Price breakdown
-      - What's included in the price?
-      - Pricing structure
-      - Cost breakdown
-
-  - intent: payment_options
-    examples: |
-      - How can I pay?
-      - Payment methods
-      - What payment options do you accept?
-      - Do you accept cards?
-      - Payment options
-      - [Nigerian Pidgin] How I go pay?
-
-  - intent: booking
-    examples: |
-      - I want to book
-      - Book an appointment
-      - Schedule a meeting
-      - Make a booking
-      - I need to book
-      - Can I book?
-      - [Nigerian Pidgin] I want make I book
-      - [Nigerian Pidgin] Abeg book for me
-
-  - intent: booking_confirmation
-    examples: |
-      - Confirm my booking
-      - Is my booking confirmed?
-      - Booking confirmation
-      - Confirm appointment
-
-  - intent: booking_modification
-    examples: |
-      - Change my booking
-      - Modify appointment
-      - Reschedule
-      - Change the date
-      - Update booking
-
-  - intent: booking_cancellation
-    examples: |
-      - Cancel my booking
-      - Cancel appointment
-      - I want to cancel
-      - Cancel booking
-
-  - intent: provide_booking_date
-    examples: |
-      - [Tomorrow](booking_date)
-      - [Next Monday](booking_date)
-      - [2024-12-25](booking_date)
-      - [December 25th](booking_date)
-      - [Next week](booking_date)
-      - Date is [Friday](booking_date)
-
-  - intent: provide_booking_time
-    examples: |
-      - [10 AM](booking_time)
-      - [2:30 PM](booking_time)
-      - [Morning](booking_time)
-      - [Afternoon](booking_time)
-      - [Evening](booking_time)
-      - Time is [3 o'clock](booking_time)
-
-  - intent: unclear_audio
-    examples: |
-      - Sorry, I didn't get that
-      - Could you repeat?
-      - I couldn't understand
-      - What did you say?
-      - Pardon?
-      - Come again?
-      - [Nigerian Pidgin] I no hear you well
-      - [Nigerian Pidgin] Abeg repeat am
-
-  - intent: repeat_request
-    examples: |
-      - Can you repeat that?
-      - Say that again
-      - Repeat please
-      - What did you say again?
-
-  - intent: slow_down
-    examples: |
-      - Speak slowly
-      - Slow down
-      - Too fast
-      - Can you speak slower?
-
-  - intent: human_handoff_request
-    examples: |
-      - I want to speak to a human
-      - Connect me to an agent
-      - Human agent please
-      - Can I talk to someone?
-      - Transfer to agent
-      - [Nigerian Pidgin] I want make I talk to person
-      - [Nigerian Pidgin] Give me human
-
-  - intent: agent_transfer
-    examples: |
-      - Transfer me
-      - Put me through
-      - Connect me
-
-  - intent: faq
-    examples: |
-      - FAQ
-      - Frequently asked questions
-      - Common questions
-      - Questions
-
-  - intent: contact_info
-    examples: |
-      - Contact information
-      - How can I reach you?
-      - Your phone number
-      - Email address
-      - Contact details
-      - [Nigerian Pidgin] How I go contact una?
-
-  - intent: thanks
-    examples: |
-      - Thank you
-      - Thanks
-      - Appreciate it
-      - Thanks a lot
-      - [Nigerian Pidgin] Thank you o
-      - [Nigerian Pidgin] God bless you
-
-  - intent: complaint
-    examples: |
-      - I have a complaint
-      - This is terrible
-      - Not satisfied
-      - I'm unhappy
-      - Poor service
-      - [Nigerian Pidgin] I get problem o
-
-  - intent: out_of_scope
-    examples: |
-      - What's the weather?
-      - Tell me a joke
-      - How old are you?
-      - What's your favorite color?
-      - Random question
+- intent: unclear
+  examples: |
+    - huh?
+    - what did you say?
+    - I didn't catch that
+    - repeat please
+    - sorry, what?
+    - can you say that again?
+    - I couldn't hear you
+    - pardon me?
+    - come again?
+    - speak up please
 
