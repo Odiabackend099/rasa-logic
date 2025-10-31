@@ -4,6 +4,13 @@ set -e
 
 echo "Starting memory-optimized build process..."
 
+# The script is called from root directory, so we need to cd into rasa-agent
+# But first check if we're already in rasa-agent directory
+if [ ! -f "requirements.txt" ]; then
+    echo "Changing to rasa-agent directory..."
+    cd rasa-agent
+fi
+
 # Create and activate virtual environment
 python3.10 -m venv venv
 source venv/bin/activate
