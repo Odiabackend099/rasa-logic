@@ -3,6 +3,9 @@ version: "3.1"
 language: en
 assistant_id: marcy_assistant
 
+# Explicit recipe specification to avoid FutureWarning
+recipe: default.v1
+
 pipeline:
   - name: WhitespaceTokenizer
   - name: RegexFeaturizer
