@@ -109,4 +109,5 @@ services:
     name: redis-cache
     plan: starter
     maxmemoryPolicy: allkeys-lru
+    ipAllowList: []
 
