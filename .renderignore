@@ -1,0 +1,41 @@
+# Render ignore file - files to exclude from deployment
+
+# Test files
+**/test-*.js
+**/tmp/
+
+# Logs
+**/*.log
+
+# Node modules (will be installed)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments (created during build)
+venv/
+.venv/
+env/
+.env
+
+# Rasa cache (regenerated)
+.rasa/
+
+# Documentation (not needed in deployment)
+*.md
+!README.md
+
+# Scripts (not needed)
+*.sh
+!render-build.sh
+!render-start-*.sh
+
+# Git
+.git/
+.gitignore
+
