@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables
+.env
+.env.local
+.env.production
+*.env
+
+# Logs
+logs/
+*.log
+backend/combined.log
+backend/error.log
+
+# Test files and temporary data
+backend/test-*.js
+backend/tmp/
+*.mp3
+*.wav
+*.ogg
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Build outputs
+dist/
+build/
+*.tar.gz
+
+# Rasa models (large files - track selectively)
+rasa-agent/models/*.tar.gz
+!rasa-agent/models/.gitkeep
+
+# Temporary files
+tmp/
+temp/
+
+# Documentation builds
+docs/_build/
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+

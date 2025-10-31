@@ -1,0 +1,104 @@
+version: "3.1"
+
+stories:
+  - story: greet and service inquiry
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: service_info
+      - action: utter_service_info
+      - intent: service_details
+        entities:
+          - service_type
+      - action: action_get_service_info
+      - action: utter_service_details
+
+  - story: pricing inquiry flow
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: pricing
+      - action: utter_pricing
+      - intent: affirm
+      - action: action_human_handoff
+
+  - story: booking flow
+    steps:
+      - intent: booking
+      - action: utter_booking
+      - intent: provide_booking_date
+        entities:
+          - booking_date
+      - slot_was_set:
+          - booking_date: "2024-12-25"
+      - intent: provide_booking_time
+        entities:
+          - booking_time
+      - slot_was_set:
+          - booking_time: "10:00"
+      - action: action_check_availability
+      - action: action_store_booking
+      - action: action_send_confirmation
+      - action: utter_booking_confirmation
+
+  - story: booking with lead capture
+    steps:
+      - intent: booking
+      - action: utter_booking
+      - intent: provide_booking_date
+        entities:
+          - booking_date
+          - name
+          - phone_number
+      - action: action_capture_lead
+      - action: action_store_booking
+      - action: utter_booking_confirmation
+
+  - story: unclear audio handling
+    steps:
+      - intent: unclear_audio
+      - action: utter_unclear_audio
+      - intent: repeat_request
+      - action: utter_repeat_request
+
+  - story: human handoff
+    steps:
+      - intent: human_handoff_request
+      - action: utter_human_handoff_request
+      - action: action_human_handoff
+      - action: utter_agent_transfer
+
+  - story: goodbye flow
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - story: booking cancellation
+    steps:
+      - intent: booking_cancellation
+      - action: utter_booking_cancellation
+      - intent: affirm
+      - action: action_store_booking
+      - action: utter_goodbye
+
+  - story: complaint handling
+    steps:
+      - intent: complaint
+      - action: utter_complaint
+      - action: action_human_handoff
+
+  - story: contact information request
+    steps:
+      - intent: contact_info
+      - action: utter_contact_info
+
+  - story: payment options inquiry
+    steps:
+      - intent: payment_options
+      - action: utter_payment_options
+
+  - story: out of scope handling
+    steps:
+      - intent: out_of_scope
+      - action: utter_out_of_scope
+

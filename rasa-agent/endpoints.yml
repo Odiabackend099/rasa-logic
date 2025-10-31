@@ -1,0 +1,7 @@
+action_endpoint:
+  url: "http://localhost:5055/webhook"
+
+# Uncomment and configure for production:
+# action_endpoint:
+#   url: "https://logic.callwaitingai.dev:5055/webhook"
+

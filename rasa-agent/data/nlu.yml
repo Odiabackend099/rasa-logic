@@ -1,0 +1,249 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - Hi
+      - Hello
+      - Hey
+      - Good morning
+      - Good afternoon
+      - Good evening
+      - Hi there
+      - Hello there
+      - Greetings
+      - Howdy
+      - [Nigerian Pidgin] How you dey?
+      - [Nigerian Pidgin] Abeg wetin dey happen?
+      - [Nigerian Pidgin] Hello o
+
+  - intent: goodbye
+    examples: |
+      - Bye
+      - Goodbye
+      - See you later
+      - See you
+      - Talk to you later
+      - Thanks bye
+      - Bye bye
+      - [Nigerian Pidgin] Later o
+      - [Nigerian Pidgin] Make I go now
+
+  - intent: affirm
+    examples: |
+      - Yes
+      - Yeah
+      - Yep
+      - Sure
+      - Okay
+      - Ok
+      - Alright
+      - Of course
+      - Definitely
+      - Absolutely
+      - [Nigerian Pidgin] Yes o
+      - [Nigerian Pidgin] Na so
+
+  - intent: deny
+    examples: |
+      - No
+      - Nope
+      - Not really
+      - Don't think so
+      - Nah
+      - [Nigerian Pidgin] No o
+      - [Nigerian Pidgin] No be so
+
+  - intent: service_info
+    examples: |
+      - What services do you offer?
+      - Tell me about your services
+      - What services are available?
+      - I want to know about services
+      - Services
+      - What can you do?
+      - What do you provide?
+      - [Nigerian Pidgin] Wetin una dey do?
+      - [Nigerian Pidgin] Abeg tell me about una services
+
+  - intent: service_details
+    examples: |
+      - Tell me more about [service management](service_type)
+      - Details about [call handling](service_type)
+      - What is [AI assistant](service_type)?
+      - Explain [booking system](service_type)
+      - More info on [customer support](service_type)
+
+  - intent: service_hours
+    examples: |
+      - What are your hours?
+      - When are you open?
+      - What time do you close?
+      - Business hours
+      - Operating hours
+      - [Nigerian Pidgin] Wetin be una working hours?
+
+  - intent: pricing
+    examples: |
+      - How much does it cost?
+      - What's the price?
+      - Pricing
+      - How much?
+      - Cost
+      - Rates
+      - What are your rates?
+      - Price list
+      - [Nigerian Pidgin] How much e cost?
+      - [Nigerian Pidgin] Wetin be the price?
+
+  - intent: pricing_details
+    examples: |
+      - Detailed pricing
+      - Price breakdown
+      - What's included in the price?
+      - Pricing structure
+      - Cost breakdown
+
+  - intent: payment_options
+    examples: |
+      - How can I pay?
+      - Payment methods
+      - What payment options do you accept?
+      - Do you accept cards?
+      - Payment options
+      - [Nigerian Pidgin] How I go pay?
+
+  - intent: booking
+    examples: |
+      - I want to book
+      - Book an appointment
+      - Schedule a meeting
+      - Make a booking
+      - I need to book
+      - Can I book?
+      - [Nigerian Pidgin] I want make I book
+      - [Nigerian Pidgin] Abeg book for me
+
+  - intent: booking_confirmation
+    examples: |
+      - Confirm my booking
+      - Is my booking confirmed?
+      - Booking confirmation
+      - Confirm appointment
+
+  - intent: booking_modification
+    examples: |
+      - Change my booking
+      - Modify appointment
+      - Reschedule
+      - Change the date
+      - Update booking
+
+  - intent: booking_cancellation
+    examples: |
+      - Cancel my booking
+      - Cancel appointment
+      - I want to cancel
+      - Cancel booking
+
+  - intent: provide_booking_date
+    examples: |
+      - [Tomorrow](booking_date)
+      - [Next Monday](booking_date)
+      - [2024-12-25](booking_date)
+      - [December 25th](booking_date)
+      - [Next week](booking_date)
+      - Date is [Friday](booking_date)
+
+  - intent: provide_booking_time
+    examples: |
+      - [10 AM](booking_time)
+      - [2:30 PM](booking_time)
+      - [Morning](booking_time)
+      - [Afternoon](booking_time)
+      - [Evening](booking_time)
+      - Time is [3 o'clock](booking_time)
+
+  - intent: unclear_audio
+    examples: |
+      - Sorry, I didn't get that
+      - Could you repeat?
+      - I couldn't understand
+      - What did you say?
+      - Pardon?
+      - Come again?
+      - [Nigerian Pidgin] I no hear you well
+      - [Nigerian Pidgin] Abeg repeat am
+
+  - intent: repeat_request
+    examples: |
+      - Can you repeat that?
+      - Say that again
+      - Repeat please
+      - What did you say again?
+
+  - intent: slow_down
+    examples: |
+      - Speak slowly
+      - Slow down
+      - Too fast
+      - Can you speak slower?
+
+  - intent: human_handoff_request
+    examples: |
+      - I want to speak to a human
+      - Connect me to an agent
+      - Human agent please
+      - Can I talk to someone?
+      - Transfer to agent
+      - [Nigerian Pidgin] I want make I talk to person
+      - [Nigerian Pidgin] Give me human
+
+  - intent: agent_transfer
+    examples: |
+      - Transfer me
+      - Put me through
+      - Connect me
+
+  - intent: faq
+    examples: |
+      - FAQ
+      - Frequently asked questions
+      - Common questions
+      - Questions
+
+  - intent: contact_info
+    examples: |
+      - Contact information
+      - How can I reach you?
+      - Your phone number
+      - Email address
+      - Contact details
+      - [Nigerian Pidgin] How I go contact una?
+
+  - intent: thanks
+    examples: |
+      - Thank you
+      - Thanks
+      - Appreciate it
+      - Thanks a lot
+      - [Nigerian Pidgin] Thank you o
+      - [Nigerian Pidgin] God bless you
+
+  - intent: complaint
+    examples: |
+      - I have a complaint
+      - This is terrible
+      - Not satisfied
+      - I'm unhappy
+      - Poor service
+      - [Nigerian Pidgin] I get problem o
+
+  - intent: out_of_scope
+    examples: |
+      - What's the weather?
+      - Tell me a joke
+      - How old are you?
+      - What's your favorite color?
+      - Random question
+

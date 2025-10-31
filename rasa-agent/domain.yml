@@ -1,0 +1,202 @@
+version: "3.1"
+
+intents:
+  # Greeting intents
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  
+  # Service information intents
+  - service_info
+  - service_details
+  - service_hours
+  
+  # Pricing intents
+  - pricing
+  - pricing_details
+  - payment_options
+  
+  # Booking intents
+  - booking
+  - booking_confirmation
+  - booking_modification
+  - booking_cancellation
+  - provide_booking_date
+  - provide_booking_time
+  
+  # Audio/communication issues
+  - unclear_audio
+  - repeat_request
+  - slow_down
+  
+  # Human handoff
+  - human_handoff_request
+  - agent_transfer
+  
+  # General intents
+  - faq
+  - contact_info
+  - thanks
+  - complaint
+  - out_of_scope
+
+entities:
+  - service_type
+  - price
+  - booking_date
+  - booking_time
+  - phone_number
+  - name
+  - email
+  - location
+
+slots:
+  service_type:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: service_type
+  
+  price:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: price
+  
+  booking_date:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: booking_date
+  
+  booking_time:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: booking_time
+  
+  phone_number:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: phone_number
+  
+  name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: name
+  
+  email:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: email
+  
+  session_id:
+    type: text
+    mappings:
+      - type: custom
+  
+  channel:
+    type: text
+    mappings:
+      - type: custom
+  
+  language:
+    type: text
+    mappings:
+      - type: custom
+
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to CallWaitingAI. How can I assist you today?"
+    - text: "Hi there! How may I help you?"
+    - text: "Greetings! What can I do for you?"
+  
+  utter_goodbye:
+    - text: "Thank you for contacting us. Have a great day!"
+    - text: "Goodbye! We look forward to serving you again."
+    - text: "Take care! Feel free to reach out anytime."
+  
+  utter_service_info:
+    - text: "We offer a comprehensive range of services including AI-powered call management, automated scheduling, lead capture, and customer support solutions. Which service are you interested in?"
+    - text: "Our services include call management automation, appointment booking systems, lead generation tools, and customer engagement solutions. What would you like to know more about?"
+  
+  utter_service_details:
+    - text: "I can provide detailed information about any of our services. Please let me know which specific service you'd like to learn about."
+  
+  utter_service_hours:
+    - text: "We're available 24/7 for your convenience. Our AI assistant is always ready to help!"
+  
+  utter_pricing:
+    - text: "Our pricing varies based on the services and package you choose. I can connect you with our team for detailed pricing information. Would you like to speak with a representative?"
+    - text: "We offer flexible pricing plans tailored to your needs. Would you like me to have someone contact you with specific pricing details?"
+  
+  utter_pricing_details:
+    - text: "For detailed pricing information, I'll need to connect you with our pricing team. Should I arrange that?"
+  
+  utter_payment_options:
+    - text: "We accept various payment methods including credit cards, bank transfers, and other secure payment options. Would you like more details?"
+  
+  utter_booking:
+    - text: "I'd be happy to help you book an appointment. What date and time would work best for you?"
+    - text: "Let's schedule your appointment. When would you like to come in?"
+  
+  utter_booking_confirmation:
+    - text: "Your booking has been confirmed! You'll receive a confirmation email shortly."
+  
+  utter_booking_modification:
+    - text: "I can help you modify your booking. What changes would you like to make?"
+  
+  utter_booking_cancellation:
+    - text: "I can help you cancel your booking. Would you like me to proceed with the cancellation?"
+  
+  utter_unclear_audio:
+    - text: "I'm sorry, I didn't catch that. Could you please repeat?"
+    - text: "I didn't quite understand. Can you say that again?"
+    - text: "Could you please repeat that? The audio wasn't clear."
+  
+  utter_repeat_request:
+    - text: "Of course. Let me repeat that for you."
+  
+  utter_slow_down:
+    - text: "No problem, I'll speak more slowly."
+  
+  utter_human_handoff_request:
+    - text: "I'll connect you with one of our human agents right away. Please hold for a moment."
+  
+  utter_agent_transfer:
+    - text: "Transferring you to a human agent now..."
+  
+  utter_faq:
+    - text: "I'm here to help answer your questions. What would you like to know?"
+  
+  utter_contact_info:
+    - text: "You can reach us through this number, email, or our website. Is there something specific you need help with?"
+  
+  utter_thanks:
+    - text: "You're very welcome! Is there anything else I can help you with?"
+    - text: "Happy to help! Anything else?"
+  
+  utter_complaint:
+    - text: "I'm sorry to hear about your experience. Let me connect you with our support team who can better assist you with this."
+  
+  utter_out_of_scope:
+    - text: "I'm not sure I understand. Could you rephrase that? I'm here to help with service information, pricing, and bookings."
+    - text: "That's outside my area of expertise. I can help you with our services, pricing, or booking. What would you like to know?"
+
+actions:
+  - action_capture_lead
+  - action_store_booking
+  - action_log_conversation
+  - action_human_handoff
+  - action_get_service_info
+  - action_check_availability
+  - action_send_confirmation
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
