@@ -3,9 +3,8 @@ services:
     name: callwaitingai-backend
     env: node
     plan: starter
-    rootDir: backend
-    buildCommand: npm ci
-    startCommand: npm start
+    buildCommand: cd backend && npm ci
+    startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -49,8 +48,8 @@ services:
     name: rasa-server
     env: python
     plan: starter
-    rootDir: rasa-agent
     buildCommand: |
+      cd rasa-agent
       python -m venv venv
       source venv/bin/activate
       pip install --upgrade pip
@@ -58,6 +57,7 @@ services:
       pip install -r actions/requirements.txt
       rasa train
     startCommand: |
+      cd rasa-agent
       source venv/bin/activate
       rasa run --enable-api --cors "*" --port $PORT
     envVars:
@@ -76,14 +76,15 @@ services:
     name: rasa-actions
     env: python
     plan: starter
-    rootDir: rasa-agent
     buildCommand: |
+      cd rasa-agent
       python -m venv venv
       source venv/bin/activate
       pip install --upgrade pip
       pip install -r requirements.txt
       pip install -r actions/requirements.txt
     startCommand: |
+      cd rasa-agent
       source venv/bin/activate
       rasa run actions --port $PORT
     envVars:
