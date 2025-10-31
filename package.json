@@ -1,0 +1,88 @@
+{
+  "name": "callwaitingai-unified",
+  "version": "1.0.0",
+  "description": "CallWaitingAI - Unified Rasa Conversational AI System",
+  "main": "backend/server.js",
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:rasa",
+    "install:backend": "cd backend && npm install",
+    "install:rasa": "cd rasa-agent && python3.10 -m venv venv && source venv/bin/activate && pip install -r requirements-production.txt && pip install -r actions/requirements.txt",
+    
+    "dev": "npm run dev:backend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:rasa": "cd rasa-agent && source venv/bin/activate && rasa run --enable-api --cors '*' --port 5005",
+    "dev:actions": "cd rasa-agent && source venv/bin/activate && rasa run actions --port 5055",
+    
+    "start": "npm run start:backend",
+    "start:backend": "cd backend && npm start",
+    "start:rasa": "cd rasa-agent && source venv/bin/activate && rasa run --enable-api --cors '*' --port 5005 --model models/lightweight.tar.gz --workers 1",
+    "start:actions": "cd rasa-agent && source venv/bin/activate && rasa run actions --port 5055",
+    
+    "train": "cd rasa-agent && source venv/bin/activate && rasa train --config config-production.yml --fixed-model-name lightweight",
+    "train:minimal": "cd rasa-agent && source venv/bin/activate && rasa train --config config-production.yml --domain domain-minimal.yml --data data/nlu-minimal.yml data/stories-minimal.yml --fixed-model-name lightweight",
+    
+    "test": "npm run test:backend && npm run test:rasa",
+    "test:backend": "cd backend && npm test",
+    "test:rasa": "cd rasa-agent && source venv/bin/activate && rasa test",
+    "test:conversation": "node test_love_conversation.js",
+    
+    "docker:build": "docker-compose build --no-cache",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:restart": "docker-compose restart",
+    
+    "deploy:local": "npm run train && npm run docker:build && npm run docker:up",
+    "deploy:ec2": "chmod +x deployment/ec2/deploy.sh && ./deployment/ec2/deploy.sh",
+    "deploy:render": "git push origin main",
+    
+    "setup:ec2": "chmod +x deployment/ec2/setup-ec2.sh && ./deployment/ec2/setup-ec2.sh",
+    "setup:env": "cp backend/.env.example backend/.env && cp rasa-agent/env.example rasa-agent/.env",
+    
+    "health": "curl -f http://localhost:3000/health && curl -f http://localhost:5005/health",
+    "monitor": "docker stats --format 'table {{.Container}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\\t{{.NetIO}}'",
+    
+    "clean": "npm run clean:docker && npm run clean:models && npm run clean:logs",
+    "clean:docker": "docker system prune -f && docker volume prune -f",
+    "clean:models": "rm -rf rasa-agent/models/* rasa-agent/.rasa/cache/*",
+    "clean:logs": "rm -rf logs/* backend/logs/* rasa-agent/logs/*",
+    
+    "update": "git pull origin main && npm run install:all && npm run train && npm run docker:build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Odiabackend099/rasa-logic.git"
+  },
+  "keywords": [
+    "rasa",
+    "conversational-ai",
+    "chatbot",
+    "voice-ai",
+    "callwaitingai",
+    "minimax",
+    "tts",
+    "stt",
+    "twilio",
+    "whatsapp",
+    "telegram"
+  ],
+  "author": "ODIA Backend",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.10.0"
+  },
+  "workspaces": [
+    "backend"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {},
+  "config": {
+    "rasa_version": "3.6.20",
+    "python_version": "3.10",
+    "node_version": "18"
+  }
+}

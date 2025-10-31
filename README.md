@@ -1,193 +1,384 @@
-# CallWaitingAI - Rasa Conversational Agent
+# 🚀 CallWaitingAI - Unified Conversational AI System
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/docs/blueprint-spec)
 
-Self-hosted Rasa Open Source conversational AI system to replace VAPI's conversation logic for CallWaitingAI.
+**Self-hosted Rasa Open Source conversational AI system with MiniMax TTS integration, multi-channel support, and production-ready deployment configurations.**
 
-## Project Structure
-
-```
-.
-├── rasa-agent/          # Rasa Open Source agent
-│   ├── data/           # Training data (NLU, stories, rules)
-│   ├── actions/        # Custom action server
-│   ├── models/         # Trained Rasa models
-│   ├── config.yml      # Rasa configuration
-│   ├── domain.yml      # Domain definition
-│   └── endpoints.yml   # Endpoint configuration
-├── backend/            # Node.js/Express API server
-│   ├── routes/         # API route handlers
-│   ├── services/       # Service integrations (STT/TTS)
-│   └── server.js       # Main server file
-└── database/           # Supabase database schema
-    └── schema.sql      # Database schema
-
-```
-
-## Features
-
-- **Multi-language Support**: English and Nigerian Pidgin
-- **Multi-channel Integration**: Web, Telegram, WhatsApp, Twilio voice calls
-- **Lead Capture**: Automatic lead capture and storage in Supabase
-- **Human Handoff**: Seamless transfer to human agents
-- **Analytics Dashboard**: Conversation analytics and reporting
-- **Voice Integration**: Twilio + MiniMax STT/TTS support
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.10 (3.11+ not compatible with Rasa 3.x)
-- Node.js 18+
-- Supabase account
-
-### Local Development Setup
-
-1. **Setup Rasa Agent**
+## 🎯 **Quick Start - One Command Deployment**
 
 ```bash
-cd rasa-agent
-python3.10 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install --upgrade pip
-pip install rasa rasa-sdk supabase python-dotenv
+# Clone the unified repository
+git clone https://github.com/Odiabackend099/rasa-logic.git
+cd rasa-logic
 
-# Install action server dependencies
-cd actions
-pip install -r requirements.txt
-cd ..
+# Deploy locally (development)
+./deploy.sh local
 
-# Copy environment file
-cp env.example .env
-# Edit .env with your Supabase credentials
+# Deploy with Docker (production-like)
+./deploy.sh docker
 
-# Train model
-rasa train
+# Deploy to EC2 t3.small
+./deploy.sh ec2
+
+# Deploy to Render
+./deploy.sh render
 ```
 
-2. **Start Rasa Services**
+## 📁 **Unified Repository Structure**
 
-Terminal 1 - Rasa server:
-```bash
-cd rasa-agent
-source venv/bin/activate
-rasa run --enable-api --cors "*"
+```
+callwaitingai-unified/
+├── 📦 package.json              # Unified npm scripts for all operations
+├── 🐳 docker-compose.yml        # Complete containerization
+├── 🚀 deploy.sh                 # One-command deployment script
+├── 🔧 .env.example              # Unified environment configuration
+│
+├── backend/                     # Node.js API Server
+│   ├── 🐳 Dockerfile           # Production-ready container
+│   ├── 📦 package.json         # Backend dependencies
+│   ├── 🚀 server.js            # Main server file
+│   ├── 🛣️  routes/             # API endpoints (chat, voice, webhooks)
+│   ├── 🔧 services/            # STT/TTS integrations
+│   └── 🛡️  middleware/         # Validation, security
+│
+├── rasa-agent/                  # Rasa Conversational AI
+│   ├── 🐳 Dockerfile.server    # Ultra-lightweight Rasa server
+│   ├── 🐳 Dockerfile.actions   # Actions server with MiniMax TTS
+│   ├── ⚙️  config-production.yml # Optimized for 512MB-2GB RAM
+│   ├── 🎯 data/               # Training data (NLU, stories, rules)
+│   ├── 🎭 domain.yml          # Conversation domain
+│   ├── ⚡ actions/            # Custom actions (TTS, database)
+│   └── 📦 requirements-production.txt # Ultra-light dependencies
+│
+├── deployment/                  # Production Deployment
+│   └── ec2/                    # AWS EC2 deployment
+│       ├── 🚀 setup-ec2.sh    # Complete EC2 instance setup
+│       ├── 📦 deploy.sh       # Application deployment
+│       ├── 🔧 .env.template   # Production environment
+│       ├── 🔄 callwaitingai.service # Systemd service
+│       └── 📖 README.md       # Detailed deployment guide
+│
+├── nginx/                      # Reverse Proxy & SSL
+│   ├── ⚙️  nginx.conf         # Production configuration
+│   └── 🔒 ssl/               # SSL certificates
+│
+└── database/                   # Supabase Database
+    ├── 📊 schema.sql          # Database schema
+    └── 🔧 SUPABASE_SETUP.sql  # Setup instructions
 ```
 
-Terminal 2 - Action server:
+## ✨ **Features**
+
+### 🤖 **Conversational AI**
+- **Ultra-lightweight Rasa** - Optimized for 512MB-2GB RAM
+- **Multi-language support** - English and Nigerian Pidgin
+- **Intent recognition** - Business inquiries, lead capture, love meditation
+- **Context management** - Session-based conversations
+- **Fallback handling** - Graceful error recovery
+
+### 🎵 **Voice Integration**
+- **MiniMax TTS** - High-quality text-to-speech with African male voice
+- **Multiple voice options** - Soft, natural, professional tones
+- **Real-time synthesis** - Fast audio generation and streaming
+- **Voice customization** - Speed, volume, pitch control
+
+### 📱 **Multi-Channel Support**
+- **Web API** - RESTful endpoints for web applications
+- **Twilio Voice** - Phone call integration with STT/TTS
+- **WhatsApp Business** - WhatsApp messaging integration
+- **Telegram Bot** - Telegram channel support
+- **Webhook support** - Easy integration with external systems
+
+### 🏗️ **Production-Ready Architecture**
+- **Docker containerization** - Complete orchestration with health checks
+- **Nginx reverse proxy** - SSL termination, rate limiting, security
+- **Auto-scaling ready** - Horizontal and vertical scaling support
+- **Monitoring & logging** - Comprehensive observability
+- **CI/CD ready** - Automated deployment pipelines
+
+## 🚀 **Deployment Options**
+
+### 1. **Local Development**
 ```bash
-cd rasa-agent
-source venv/bin/activate
-rasa run actions
-```
-
-3. **Setup Backend API**
-
-```bash
-cd backend
-npm install
-
-# Copy environment file
-cp .env.example .env
-# Edit .env with configuration
-
-# Start server
-npm start
-# Or for development:
+# Quick start
+npm run install:all
+npm run train
 npm run dev
+
+# Or use unified script
+./deploy.sh local
 ```
 
-4. **Setup Database**
+**Services:**
+- Backend: http://localhost:3000
+- Rasa: http://localhost:5005
+- Actions: http://localhost:5055
 
-- Create Supabase project
-- Run `database/schema.sql` in Supabase SQL Editor
-- Configure environment variables in both `rasa-agent/.env` and `backend/.env`
+### 2. **Docker Production**
+```bash
+# Build and deploy
+./deploy.sh docker --clean
 
-## Configuration
+# Monitor
+docker-compose logs -f
+npm run monitor
+```
 
-### Environment Variables
+**Access:** http://localhost (via Nginx)
 
-**rasa-agent/.env:**
-- `SUPABASE_URL`: Your Supabase project URL
-- `SUPABASE_KEY`: Your Supabase anon key
+### 3. **AWS EC2 t3.small**
+```bash
+# One-command EC2 deployment
+./deploy.sh ec2
 
-**backend/.env:**
-- `PORT`: Backend server port (default: 3000)
-- `RASA_SERVER_URL`: Rasa server URL (default: http://localhost:5005)
-- `SUPABASE_URL`: Your Supabase project URL
-- `SUPABASE_KEY`: Your Supabase anon key
-- `MINIMAX_STT_URL`: MiniMax STT API URL (optional)
-- `MINIMAX_TTS_URL`: MiniMax TTS API URL (optional)
-- `MINIMAX_API_KEY`: MiniMax API key (optional)
-- `TELEGRAM_BOT_TOKEN`: Telegram bot token (optional)
-- `WHATSAPP_PHONE_NUMBER_ID`: WhatsApp Business API phone number ID (optional)
-- `WHATSAPP_ACCESS_TOKEN`: WhatsApp access token (optional)
+# Manual setup
+curl -fsSL https://raw.githubusercontent.com/Odiabackend099/rasa-logic/main/deployment/ec2/setup-ec2.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Odiabackend099/rasa-logic/main/deployment/ec2/deploy.sh | bash
+```
 
-## API Endpoints
+**Optimized for:**
+- 2GB RAM (ultra-lightweight Rasa)
+- 2 vCPU (single worker processes)
+- SSL/TLS with Let's Encrypt
+- Systemd auto-restart
 
-### Chat & Voice
+### 4. **Render.com**
+```bash
+# Deploy to Render
+./deploy.sh render
 
+# Or manual push
+git push origin main
+```
+
+**Features:**
+- Auto-deployment on git push
+- Built-in SSL certificates
+- Environment variable management
+- Automatic scaling
+
+## ⚙️ **Configuration**
+
+### **Environment Setup**
+```bash
+# Copy and configure environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# Key configurations:
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-supabase-anon-key
+MINIMAX_API_KEY=your-minimax-api-key
+MINIMAX_GROUP_ID=your-group-id
+TWILIO_ACCOUNT_SID=your-twilio-sid
+```
+
+### **Resource Optimization**
+```bash
+# For t3.small (2GB RAM)
+OMP_NUM_THREADS=1
+OPENBLAS_NUM_THREADS=1
+RASA_MAX_TRAINING_PROCESSES=1
+
+# For larger instances
+OMP_NUM_THREADS=2
+OPENBLAS_NUM_THREADS=2
+RASA_MAX_TRAINING_PROCESSES=2
+```
+
+## 🧪 **Testing & Monitoring**
+
+### **Health Checks**
+```bash
+# Check all services
+npm run health
+
+# Individual service checks
+curl http://localhost:3000/health
+curl http://localhost:5005/health
+curl http://localhost:5055/health
+```
+
+### **Testing**
+```bash
+# Run all tests
+npm run test
+
+# Test conversation
+npm run test:conversation
+
+# Test specific components
+npm run test:backend
+npm run test:rasa
+```
+
+### **Monitoring**
+```bash
+# Resource monitoring
+npm run monitor
+
+# View logs
+npm run docker:logs
+
+# Health monitoring
+./health-check.sh
+```
+
+## 📊 **API Endpoints**
+
+### **Chat & Voice**
 - `POST /api/chat` - Process chat message
-- `POST /api/voice` - Process voice message (STT text)
-- `GET /api/session/:sessionId` - Get conversation history
-- `POST /api/handoff` - Trigger human handoff
+- `POST /api/voice` - Process voice message
+- `GET /api/session/:id` - Get conversation history
 
-### Twilio
+### **Webhooks**
+- `POST /api/twilio/incoming` - Twilio voice calls
+- `POST /api/whatsapp/webhook` - WhatsApp messages
+- `POST /api/telegram/webhook` - Telegram messages
 
-- `POST /api/twilio/incoming` - Handle incoming Twilio call
-- `POST /api/twilio/gather` - Handle speech input
-- `POST /api/twilio/status` - Call status callback
-
-### Channels
-
-- `POST /api/telegram/webhook` - Telegram webhook
-- `POST /api/whatsapp/webhook` - WhatsApp webhook
-
-### Analytics
-
+### **Analytics**
 - `GET /api/analytics/dashboard` - Dashboard summary
-- `GET /api/analytics/conversations` - Conversation list
-- `GET /api/analytics/intents` - Intent statistics
+- `GET /api/analytics/conversations` - Conversation analytics
 - `GET /api/analytics/leads` - Lead statistics
-- `GET /api/analytics/session/:sessionId` - Session details
 
-## Training the Model
-
-```bash
-cd rasa-agent
-source venv/bin/activate
-rasa train
-```
-
-## Testing
-
-### Test Rasa directly:
+## 🔧 **Development Commands**
 
 ```bash
-cd rasa-agent
-source venv/bin/activate
-rasa shell
+# Installation
+npm run install:all          # Install all dependencies
+npm run install:backend      # Backend only
+npm run install:rasa         # Rasa only
+
+# Development
+npm run dev                  # Start development servers
+npm run dev:backend          # Backend development
+npm run dev:rasa            # Rasa development
+npm run dev:actions         # Actions development
+
+# Training
+npm run train               # Train production model
+npm run train:minimal       # Train minimal model
+
+# Docker
+npm run docker:build        # Build containers
+npm run docker:up           # Start containers
+npm run docker:down         # Stop containers
+npm run docker:restart      # Restart containers
+
+# Deployment
+npm run deploy:local        # Local deployment
+npm run deploy:ec2          # EC2 deployment
+npm run deploy:render       # Render deployment
+
+# Maintenance
+npm run clean               # Clean all artifacts
+npm run update              # Update and rebuild
+npm run health              # Health check
+npm run monitor             # Resource monitoring
 ```
 
-### Test via API:
+## 🔒 **Security Features**
 
+- **Rate limiting** - API endpoint protection
+- **CORS configuration** - Cross-origin request security
+- **Input validation** - Request sanitization
+- **SSL/TLS encryption** - End-to-end encryption
+- **Security headers** - HSTS, XSS protection
+- **Non-root containers** - Docker security best practices
+- **Environment isolation** - Secure configuration management
+
+## 📈 **Performance Optimizations**
+
+### **Memory Efficiency**
+- Ultra-lightweight Rasa configuration (embedding_dim=20)
+- Minimal dependencies (no TensorFlow/JAX for 512MB deployments)
+- Aggressive caching and cleanup
+- Single worker processes for small instances
+
+### **Network Optimization**
+- Nginx reverse proxy with compression
+- Connection pooling and keep-alive
+- CDN-ready static asset serving
+- Efficient API response caching
+
+### **Database Optimization**
+- Supabase connection pooling
+- Optimized queries and indexing
+- Session cleanup and management
+- Analytics data aggregation
+
+## 🆘 **Troubleshooting**
+
+### **Common Issues**
+
+1. **Out of Memory (OOM)**
+   ```bash
+   # Check memory usage
+   npm run monitor
+   
+   # Use minimal configuration
+   npm run train:minimal
+   ```
+
+2. **Service Not Starting**
+   ```bash
+   # Check logs
+   npm run docker:logs
+   
+   # Restart services
+   npm run docker:restart
+   ```
+
+3. **Health Check Failures**
+   ```bash
+   # Run health check
+   npm run health
+   
+   # Check individual services
+   curl http://localhost:3000/health
+   ```
+
+### **Performance Issues**
 ```bash
-curl -X POST http://localhost:3000/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Hello", "session_id": "test123"}'
+# Monitor resources
+npm run monitor
+
+# Clean and rebuild
+npm run clean
+npm run docker:build --no-cache
 ```
 
-## Deployment
+## 🤝 **Contributing**
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for AWS EC2 deployment instructions.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## License
+## 📄 **License**
 
 Apache 2.0 (same as Rasa Open Source)
 
-## Support
+## 🆘 **Support**
 
-For issues and questions, please refer to:
-- [Rasa Documentation](https://rasa.com/docs/rasa)
-- Project documentation in individual directories
+- **Documentation**: Check individual service README files
+- **Issues**: GitHub Issues
+- **Deployment Guide**: `deployment/ec2/README.md`
+- **API Documentation**: Available at `/api/docs` when running
+
+---
+
+## 🎉 **Ready to Deploy!**
+
+Your unified CallWaitingAI system is ready for production deployment with:
+
+✅ **One-command deployment** across all environments  
+✅ **Ultra-lightweight configuration** for cost-effective hosting  
+✅ **Production-grade security** and monitoring  
+✅ **Multi-channel integration** (Voice, WhatsApp, Telegram, Web)  
+✅ **MiniMax TTS integration** with African male voice  
+✅ **Auto-scaling and high availability** support  
+
+**Start with:** `./deploy.sh local` for development or `./deploy.sh ec2` for production!
 
