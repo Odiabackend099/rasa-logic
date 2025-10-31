@@ -93,9 +93,9 @@ class ActionCaptureLead(Action):
                 
                 # Send Telegram alert if configured
                 telegram_token = os.getenv("TELEGRAM_BOT_TOKEN", "")
-                telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID", "6526780056")
+                telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID", "")
                 
-                if telegram_token:
+                if telegram_token and telegram_chat_id:
                     try:
                         import requests
                         alert_message = (

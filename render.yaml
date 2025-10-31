@@ -24,6 +24,10 @@ services:
         sync: false
       - key: SUPABASE_KEY
         sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
       - key: MINIMAX_API_KEY
         sync: false
       - key: MINIMAX_GROUP_ID
@@ -44,6 +48,21 @@ services:
         sync: false
       - key: LOG_LEVEL
         value: info
+      # New environment variables from code improvements
+      - key: SESSION_TIMEOUT_MS
+        value: "86400000"
+      - key: CLEANUP_INTERVAL_MS
+        value: "3600000"
+      - key: RATE_LIMIT_REQUESTS
+        value: "100"
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "900000"
+      - key: TTS_TIMEOUT_MS
+        value: "30000"
+      - key: MAX_TEXT_LENGTH
+        value: "5000"
+      - key: TELEGRAM_CHAT_ID
+        sync: false
   - type: web
     name: rasa-server
     env: python
@@ -66,6 +85,10 @@ services:
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
         sync: false
       - key: ACTION_SERVER_URL
         fromService:

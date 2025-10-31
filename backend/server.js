@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 const winston = require('winston');
+const rateLimit = require('express-rate-limit');
+const { validateInput, rateLimitConfig } = require('./middleware/validation');
+const { sanitizeErrorForLogging, createSafeErrorResponse } = require('./utils/errorSanitizer');
 const twilioRoutes = require('./routes/twilio');
 const telegramRoutes = require('./routes/telegram');
 const whatsappRoutes = require('./routes/whatsapp');
@@ -35,8 +38,12 @@ const logger = winston.createLogger({
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '50mb' })); // Increase limit for audio data
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
+// Apply rate limiting to all requests
+const limiter = rateLimit(rateLimitConfig);
+app.use(limiter);
 
 // Routes
 app.use('/api/twilio', twilioRoutes);
@@ -48,6 +55,32 @@ app.use('/api/analytics', analyticsRoutes);
 // In-memory session store (replace with Redis in production)
 const sessions = new Map();
 
+// Session management configuration
+const SESSION_TIMEOUT_MS = parseInt(process.env.SESSION_TIMEOUT_MS) || 24 * 60 * 60 * 1000; // Default: 24 hours
+const CLEANUP_INTERVAL_MS = parseInt(process.env.CLEANUP_INTERVAL_MS) || 60 * 60 * 1000; // Default: 1 hour
+
+/**
+ * Clean up expired sessions to prevent memory leaks
+ */
+function cleanupExpiredSessions() {
+  const now = new Date();
+  let cleanedCount = 0;
+  
+  for (const [sessionId, session] of sessions.entries()) {
+    if (now - session.createdAt > SESSION_TIMEOUT_MS) {
+      sessions.delete(sessionId);
+      cleanedCount++;
+    }
+  }
+  
+  if (cleanedCount > 0) {
+    logger.info(`Cleaned up ${cleanedCount} expired sessions. Active sessions: ${sessions.size}`);
+  }
+}
+
+// Start session cleanup interval
+setInterval(cleanupExpiredSessions, CLEANUP_INTERVAL_MS);
+
 /**
  * Generate or retrieve session ID
  */
@@ -57,11 +90,17 @@ function getOrCreateSession(sessionId) {
     sessions.set(newSessionId, {
       id: newSessionId,
       createdAt: new Date(),
+      lastActivity: new Date(),
       history: [],
       metadata: {}
     });
     return newSessionId;
   }
+  
+  // Update last activity timestamp
+  const session = sessions.get(sessionId);
+  session.lastActivity = new Date();
+  
   return sessionId;
 }
 
@@ -69,7 +108,7 @@ function getOrCreateSession(sessionId) {
  * POST /api/chat
  * Handle chat messages and forward to Rasa
  */
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', validateInput('chatMessage'), async (req, res) => {
   try {
     const { message, session_id, language, channel = 'web' } = req.body;
 
@@ -129,14 +168,19 @@ app.post('/api/chat', async (req, res) => {
     });
 
   } catch (error) {
-    logger.error('Error processing chat:', error);
-    const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+    // Log sanitized error to prevent API key exposure
+    logger.error('Error processing chat:', sanitizeErrorForLogging(error));
+    
+    // Send safe error response to client
+    const safeResponse = createSafeErrorResponse(error);
     const statusCode = error.response?.status || 500;
-    res.status(statusCode).json({
-      error: 'Failed to process message',
-      message: errorMessage,
-      details: error.code === 'ECONNREFUSED' ? 'Rasa server may still be starting. Please wait 30-60 seconds and try again.' : undefined
-    });
+    
+    // Add specific context for connection errors
+    if (error.code === 'ECONNREFUSED') {
+      safeResponse.details = 'Rasa server may still be starting. Please wait 30-60 seconds and try again.';
+    }
+    
+    res.status(statusCode).json(safeResponse);
   }
 });
 
@@ -144,7 +188,7 @@ app.post('/api/chat', async (req, res) => {
  * POST /api/voice
  * Handle voice messages (STT text) and forward to Rasa
  */
-app.post('/api/voice', async (req, res) => {
+app.post('/api/voice', validateInput('voiceMessage'), async (req, res) => {
   try {
     const { audio_text, session_id, language, channel = 'twilio' } = req.body;
 
@@ -201,11 +245,12 @@ app.post('/api/voice', async (req, res) => {
     });
 
   } catch (error) {
-    logger.error('Error processing voice:', error);
-    res.status(500).json({
-      error: 'Failed to process voice message',
-      message: error.message
-    });
+    // Log sanitized error to prevent API key exposure
+    logger.error('Error processing voice:', sanitizeErrorForLogging(error));
+    
+    // Send safe error response to client
+    const safeResponse = createSafeErrorResponse(error);
+    res.status(500).json(safeResponse);
   }
 });
 
@@ -233,7 +278,7 @@ app.get('/api/session/:sessionId', (req, res) => {
  * POST /api/handoff
  * Trigger human agent handoff
  */
-app.post('/api/handoff', async (req, res) => {
+app.post('/api/handoff', validateInput('handoff'), async (req, res) => {
   try {
     const { session_id, reason } = req.body;
 
@@ -287,11 +332,12 @@ app.post('/api/handoff', async (req, res) => {
     });
 
   } catch (error) {
-    logger.error('Error processing handoff:', error);
-    res.status(500).json({
-      error: 'Failed to process handoff request',
-      message: error.message
-    });
+    // Log sanitized error to prevent API key exposure
+    logger.error('Error processing handoff:', sanitizeErrorForLogging(error));
+    
+    // Send safe error response to client
+    const safeResponse = createSafeErrorResponse(error);
+    res.status(500).json(safeResponse);
   }
 });
 
@@ -317,9 +363,12 @@ app.get('/api/rasa/status', async (req, res) => {
       version: response.data.version || 'unknown'
     });
   } catch (error) {
+    // Log sanitized error to prevent API key exposure
+    logger.error('Error checking Rasa status:', sanitizeErrorForLogging(error));
+    
     res.status(503).json({
       rasa_status: 'disconnected',
-      error: error.message
+      error: 'Unable to connect to Rasa server'
     });
   }
 });

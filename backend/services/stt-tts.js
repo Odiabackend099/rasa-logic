@@ -13,8 +13,8 @@ const MINIMAX_GROUP_ID = process.env.MINIMAX_GROUP_ID || '';
 const MINIMAX_MODEL = process.env.MINIMAX_MODEL || 'speech-02-hd';
 
 // Configuration constants
-const TTS_TIMEOUT_MS = 30000;
-const MAX_TEXT_LENGTH = 5000;
+const TTS_TIMEOUT_MS = parseInt(process.env.TTS_TIMEOUT_MS) || 30000;
+const MAX_TEXT_LENGTH = parseInt(process.env.MAX_TEXT_LENGTH) || 5000;
 const DEFAULT_VOICE_SETTINGS = {
   speed: 1.0,
   pitch: 0,
