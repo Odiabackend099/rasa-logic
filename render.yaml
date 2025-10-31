@@ -44,11 +44,12 @@ services:
         sync: false
       - key: WHATSAPP_VERIFY_TOKEN
         sync: false
-      - key: REDIS_URL
-        fromService:
-          name: redis-cache
-          type: redis
-          property: connectionString
+      # - key: REDIS_URL
+      #   fromService:
+      #     name: redis-cache
+      #     type: redis
+      #     property: connectionString
+      # Redis is optional - commented out to save costs
       - key: LOG_LEVEL
         value: info
 
@@ -104,10 +105,11 @@ services:
       - key: SUPABASE_KEY
         sync: false
 
-  # Redis Cache (Optional but recommended)
-  - type: redis
-    name: redis-cache
-    plan: starter
-    maxmemoryPolicy: allkeys-lru
-    ipAllowList: []
+  # Redis Cache (Optional - commented out to reduce costs)
+  # Uncomment if you need session storage (adds $10/month)
+  # - type: redis
+  #   name: redis-cache
+  #   plan: starter
+  #   maxmemoryPolicy: allkeys-lru
+  #   ipAllowList: []
 
