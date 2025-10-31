@@ -15,19 +15,22 @@ from supabase import create_client, Client
 
 # Import Marcy response formatter
 try:
-    from response_formatter import format_marcy_response, get_marcy_closing
+    from actions.response_formatter import format_marcy_response, get_marcy_closing
 except ImportError:
-    # Fallback if import fails
-    def format_marcy_response(text: str, max_words: int = 25) -> str:
-        words = text.split()
-        if len(words) > max_words:
-            text = ' '.join(words[:max_words])
-            if text[-1] not in '.!?':
-                text += '.'
-        return text.strip()
-    
-    def get_marcy_closing() -> str:
-        return "Thank you for calling CallWaitingAI. Have a wonderful day."
+    try:
+        from response_formatter import format_marcy_response, get_marcy_closing
+    except ImportError:
+        # Fallback if import fails
+        def format_marcy_response(text: str, max_words: int = 25) -> str:
+            words = text.split()
+            if len(words) > max_words:
+                text = ' '.join(words[:max_words])
+                if text[-1] not in '.!?':
+                    text += '.'
+            return text.strip()
+        
+        def get_marcy_closing() -> str:
+            return "Thank you for calling CallWaitingAI. Have a wonderful day."
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
