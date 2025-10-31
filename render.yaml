@@ -68,7 +68,7 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      chmod +x rasa-agent/render-build.sh && RASA_SERVICE_TYPE=server ./rasa-agent/render-build.sh
+      chmod +x rasa-agent/render-build-production.sh && RASA_SERVICE_TYPE=server ./rasa-agent/render-build-production.sh
     startCommand: |
       chmod +x rasa-agent/render-start-server.sh && ./rasa-agent/render-start-server.sh
     envVars:
@@ -77,12 +77,16 @@ services:
       - key: PYTHONHASHSEED
         value: 0
       - key: TF_CPP_MIN_LOG_LEVEL
-        value: 2
+        value: 3
       - key: CUDA_VISIBLE_DEVICES
         value: ""
       - key: OMP_NUM_THREADS
         value: 1
       - key: OPENBLAS_NUM_THREADS
+        value: 1
+      - key: SQLALCHEMY_WARN_20
+        value: 0
+      - key: SQLALCHEMY_SILENCE_UBER_WARNING
         value: 1
       - key: SUPABASE_URL
         sync: false
@@ -110,7 +114,7 @@ services:
     env: python
     plan: starter
     buildCommand: |
-      chmod +x rasa-agent/render-build.sh && RASA_SERVICE_TYPE=actions ./rasa-agent/render-build.sh
+      chmod +x rasa-agent/render-build-production.sh && RASA_SERVICE_TYPE=actions ./rasa-agent/render-build-production.sh
     startCommand: |
       chmod +x rasa-agent/render-start-actions.sh && ./rasa-agent/render-start-actions.sh
     envVars:
@@ -121,6 +125,10 @@ services:
       - key: OMP_NUM_THREADS
         value: 1
       - key: OPENBLAS_NUM_THREADS
+        value: 1
+      - key: SQLALCHEMY_WARN_20
+        value: 0
+      - key: SQLALCHEMY_SILENCE_UBER_WARNING
         value: 1
       - key: SUPABASE_URL
         sync: false

@@ -1,0 +1,22 @@
+# BATTLE-TESTED Production Rasa Configuration
+# Zero custom parameters to avoid merge conflicts
+version: "3.1"
+language: en
+assistant_id: marcy_assistant
+recipe: default.v1
+
+pipeline:
+  - name: WhitespaceTokenizer
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: DIETClassifier
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
+  - name: FallbackClassifier
+
+policies:
+  - name: MemoizationPolicy
+  - name: RulePolicy
+  - name: UnexpecTEDIntentPolicy
+  - name: TEDPolicy
